@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<meta name="description" content="JARVIS AI personal assistant starter">
+<link rel="manifest" href="manifest.webmanifest">
+<title>JARVIS AI</title>
+<style>
+:root{color-scheme:dark;--bg:#07111f;--panel:#101e30;--line:#263b55;--blue:#4a9eff;--text:#edf5ff;--muted:#9eb0c7;--green:#7ee0b1}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#16345a 0,#07111f 55%);color:var(--text);font:15px system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;min-height:100vh}
+header{text-align:center;padding:22px 14px 12px}h1{margin:0;letter-spacing:7px;color:#86c0ff;font-size:29px}header p{margin:6px 0;color:var(--muted);font-size:12px}
+main{max-width:850px;margin:auto;padding:10px 13px 36px}.status{border:1px solid var(--line);background:#0c1929;border-radius:13px;padding:11px;text-align:center;color:var(--green);font-size:12px}
+.card{background:rgba(16,30,48,.96);border:1px solid var(--line);border-radius:17px;padding:14px;margin-top:13px;box-shadow:0 12px 32px #0003}
+#chat{height:38vh;min-height:250px;max-height:440px;overflow:auto;display:flex;flex-direction:column;gap:9px;padding:3px}
+.msg{max-width:90%;padding:11px 13px;border-radius:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.bot{align-self:flex-start;background:#1d344f}.user{align-self:flex-end;background:#164b7e}
+.row{display:flex;gap:8px;margin-top:9px}input,textarea,select{min-width:0;flex:1;background:#091523;border:1px solid #344b66;color:white;border-radius:11px;padding:12px;font:inherit}
+button{border:0;border-radius:11px;padding:11px 13px;background:#247bd1;color:white;font:inherit;font-weight:650}button.secondary{background:#263b54}button.danger{background:#713b48}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.grid button{background:#1b3858;border:1px solid #355577}
+h2{font-size:16px;margin:0 0 9px}h3{font-size:14px;margin:0 0 8px}.muted{color:var(--muted);font-size:12px;line-height:1.5}.item{display:flex;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}.item span{flex:1;overflow-wrap:anywhere}.pill{display:inline-block;border:1px solid #315274;border-radius:20px;padding:4px 8px;font-size:11px;color:#b9d9ff;margin:2px}
+#voiceState{color:#9bcaff;font-size:12px;margin-top:8px}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:18px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}#chat{height:420px}}
+</style>
+</head>
+<body>
+<header><h1>J.A.R.V.I.S</h1><p>PERSONAL AI ASSISTANT · STARTER BUILD</p></header>
+<main>
+<div class="status" id="status">● READY · Local assistant active</div>
+<section class="card">
+<div id="chat" aria-live="polite"><div class="msg bot">नमस्कार! मी JARVIS आहे. 😊 मराठी, हिंदी किंवा English मध्ये बोल किंवा लिही. साधे commands मी offline हाताळू शकतो. प्रगत AI जोडणी पुढील सुरक्षित टप्प्यात होईल.</div></div>
+<div class="row"><input id="message" placeholder="JARVIS ला काही विचार..." autocomplete="off"><button id="send">पाठव</button></div>
+<div class="grid" style="margin-top:9px">
+<button id="listen" class="secondary">🎙️ बोलून सांग</button><button id="speak" class="secondary">🔊 उत्तर ऐक</button><button id="stop" class="danger">आवाज बंद</button><button id="notify" class="secondary">🔔 Notifications</button>
+</div><div id="voiceState">Voice availability depends on your Android browser and installed speech services.</div>
+</section>
+<section class="card">
+<h2>⚡ Quick Actions</h2>
+<div class="grid">
+<button data-command="आजची तारीख काय?">📅 तारीख</button><button data-command="माझ्या नोट्स दाखव">📝 Notes</button><button data-command="माझी कामे दाखव">✅ Tasks</button><button data-command="मदत">❔ मदत</button>
+</div>
+</section>
+<section class="card">
+<h2>⏰ Reminders</h2><p class="muted">वेळ आल्यावर पेज उघडे असेल तर आवाज/सूचना देण्याचा प्रयत्न होईल. विश्वसनीय लॉक-स्क्रीन अलार्मसाठी पुढे Android native integration आवश्यक आहे.</p>
+<label class="muted" for="reminderText">कशाची आठवण?</label><input id="reminderText" placeholder="उदा. पाणी प्यायचं">
+<label class="muted" for="reminderTime" style="display:block;margin-top:8px">कधी?</label><input id="reminderTime" type="datetime-local">
+<div class="row"><button id="addReminder">आठवण सेव्ह कर</button></div><div id="reminders"></div>
+</section>
+<section class="card">
+<h2>🧠 Personal Memory</h2><p class="muted">माहिती या डिव्हाइसच्या browser storage मध्ये सेव्ह होते. संवेदनशील माहिती साठवू नकोस.</p>
+<div class="row"><input id="noteText" placeholder="उदा. मला सकाळी 6 वाजता उठायचं आहे"><button id="saveNote">सेव्ह</button></div><div id="notes"></div>
+</section>
+<section class="card">
+<h2>✅ Task Manager</h2><div class="row"><input id="taskText" placeholder="नवीन काम लिही"><button id="addTask">जोड</button></div><div id="tasks"></div>
+</section>
+<section class="card">
+<h2>🧩 AI Modules · Planned Integrations</h2>
+<span class="pill">Online AI Router</span><span class="pill">Offline Local Model</span><span class="pill">Streaming Replies</span><span class="pill">Long-term Memory</span><span class="pill">Web Research</span><span class="pill">Coding Agent</span><span class="pill">Website Builder</span><span class="pill">App Builder</span><span class="pill">Camera Vision</span><span class="pill">Emotion Cues</span><span class="pill">Android Automation</span><span class="pill">Backup & Restore</span>
+<p class="muted">हे मॉड्यूल्स सध्या आराखड्यात आहेत, जोडलेले कार्यरत AI integrations नाहीत. API keys कधीही थेट या सार्वजनिक front-end फाइलमध्ये ठेवू नयेत. पुढील टप्प्यात सुरक्षित backend आणि provider adapter जोडू.</p>
+</section>
+<footer>JARVIS AI Starter · Local-first foundation · Build version 0.1.0</footer>
+</main>
+<script src="app.js"></script>
+</body></html>
