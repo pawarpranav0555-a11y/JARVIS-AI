@@ -1,65 +1,67 @@
 <!doctype html>
 <html lang="mr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07111f">
-<meta name="description" content="JARVIS AI personal assistant starter">
-<link rel="manifest" href="manifest.webmanifest">
-<title>JARVIS AI</title>
-<style>
-:root{color-scheme:dark;--bg:#07111f;--panel:#101e30;--line:#263b55;--blue:#4a9eff;--text:#edf5ff;--muted:#9eb0c7;--green:#7ee0b1}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#16345a 0,#07111f 55%);color:var(--text);font:15px system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;min-height:100vh}
-header{text-align:center;padding:22px 14px 12px}h1{margin:0;letter-spacing:7px;color:#86c0ff;font-size:29px}header p{margin:6px 0;color:var(--muted);font-size:12px}
-main{max-width:850px;margin:auto;padding:10px 13px 36px}.status{border:1px solid var(--line);background:#0c1929;border-radius:13px;padding:11px;text-align:center;color:var(--green);font-size:12px}
-.card{background:rgba(16,30,48,.96);border:1px solid var(--line);border-radius:17px;padding:14px;margin-top:13px;box-shadow:0 12px 32px #0003}
-#chat{height:38vh;min-height:250px;max-height:440px;overflow:auto;display:flex;flex-direction:column;gap:9px;padding:3px}
-.msg{max-width:90%;padding:11px 13px;border-radius:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.bot{align-self:flex-start;background:#1d344f}.user{align-self:flex-end;background:#164b7e}
-.row{display:flex;gap:8px;margin-top:9px}input,textarea,select{min-width:0;flex:1;background:#091523;border:1px solid #344b66;color:white;border-radius:11px;padding:12px;font:inherit}
-button{border:0;border-radius:11px;padding:11px 13px;background:#247bd1;color:white;font:inherit;font-weight:650}button.secondary{background:#263b54}button.danger{background:#713b48}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.grid button{background:#1b3858;border:1px solid #355577}
-h2{font-size:16px;margin:0 0 9px}h3{font-size:14px;margin:0 0 8px}.muted{color:var(--muted);font-size:12px;line-height:1.5}.item{display:flex;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}.item span{flex:1;overflow-wrap:anywhere}.pill{display:inline-block;border:1px solid #315274;border-radius:20px;padding:4px 8px;font-size:11px;color:#b9d9ff;margin:2px}
-#voiceState{color:#9bcaff;font-size:12px;margin-top:8px}
-footer{text-align:center;color:var(--muted);font-size:11px;padding:18px}
-@media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}#chat{height:420px}}
-</style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070b18"><meta name="description" content="JARVIS multilingual AI assistant prototype">
+<title>JARVIS AI</title><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css">
 </head>
-<body>
-<header><h1>J.A.R.V.I.S</h1><p>PERSONAL AI ASSISTANT · STARTER BUILD</p></header>
+<body><div class="app-shell">
+<header class="topbar"><button class="icon-btn" id="menuBtn" aria-label="Menu">☰</button><div class="brand"><span class="brand-mark">J</span><span>JARVIS</span><small>PERSONAL AI</small></div><button class="profile" id="accountBtn" aria-label="Account">●</button></header>
+<aside class="drawer" id="drawer" aria-hidden="true"><div class="drawer-head"><strong>JARVIS</strong><button class="icon-btn" id="closeMenu">×</button></div><button class="nav-item active" data-panel="chat">✦ New conversation</button><button class="nav-item" data-panel="voice">◉ Voice Studio</button><button class="nav-item" data-panel="translate">⇄ Translator</button><button class="nav-item" data-panel="settings">⚙ Settings</button><div class="drawer-note">Prototype: chat history is stored on this device.</div></aside><div class="scrim" id="scrim"></div>
 <main>
-<div class="status" id="status">● READY · Local assistant active</div>
-<section class="card">
-<div id="chat" aria-live="polite"><div class="msg bot">नमस्कार! मी JARVIS आहे. 😊 मराठी, हिंदी किंवा English मध्ये बोल किंवा लिही. साधे commands मी offline हाताळू शकतो. प्रगत AI जोडणी पुढील सुरक्षित टप्प्यात होईल.</div></div>
-<div class="row"><input id="message" placeholder="JARVIS ला काही विचार..." autocomplete="off"><button id="send">पाठव</button></div>
-<div class="grid" style="margin-top:9px">
-<button id="listen" class="secondary">🎙️ बोलून सांग</button><button id="speak" class="secondary">🔊 उत्तर ऐक</button><button id="stop" class="danger">आवाज बंद</button><button id="notify" class="secondary">🔔 Notifications</button>
-</div><div id="voiceState">Voice availability depends on your Android browser and installed speech services.</div>
+<section class="panel active" id="chatPanel"><div class="welcome"><div class="eyebrow">YOUR PERSONAL ASSISTANT</div><h1>नमस्कार. मी <span>JARVIS</span>.</h1><p>आज मी तुमची कशी मदत करू?</p></div><div class="chat-log" id="chatLog" aria-live="polite"><div class="assistant-msg">मी तयार आहे. खाली मेसेज लिहा किंवा माइक वापरा.</div></div><div class="composer-wrap"><div class="composer"><textarea id="messageInput" rows="1" placeholder="JARVIS ला काही विचारा..." aria-label="Message"></textarea><button class="round-btn mic-btn" id="micBtn" aria-label="Voice input">🎙</button><button class="round-btn send-btn" id="sendBtn" aria-label="Send">➤</button></div><div class="fineprint">Prototype mode · AI server connection अजून जोडलेली नाही</div></div></section>
+
+<section class="panel voice-panel" id="voicePanel"><div class="voice-heading"><div class="eyebrow">JARVIS VOICE EXPERIENCE</div><h2>Voice Mode</h2><p>अनेक भारतीय आणि जागतिक भाषा निवडा. मराठी, हिंदी आणि भारतीय/अमेरिकन इंग्लिशला प्राधान्य.</p></div><div class="orb-stage"><div class="orb-halo halo-one"></div><div class="orb-halo halo-two"></div><canvas id="orbCanvas"></canvas><div class="orb-state" id="orbState">READY</div></div><div class="voice-transcript" id="voiceTranscript">माइक सुरू करण्यासाठी बटण दाबा.</div><div class="voice-controls"><button class="primary-btn" id="voiceStart">🎙 Start listening</button><button class="secondary-btn" id="voiceStop" disabled>Stop</button></div>
+<div class="voice-settings">
+<label>Voice language<select id="languageSelect"><option value="mr-IN">मराठी · Marathi (India) — Priority</option>
+<option value="hi-IN">हिंदी · Hindi (India) — Priority</option>
+<option value="en-IN">English (India) — Priority</option>
+<option value="en-US">English (United States) — Priority</option>
+<option value="bn-IN">বাংলা · Bengali (India)</option><option value="gu-IN">ગુજરાતી · Gujarati (India)</option>
+<option value="kn-IN">ಕನ್ನಡ · Kannada (India)</option><option value="ml-IN">മലയാളം · Malayalam (India)</option>
+<option value="ta-IN">தமிழ் · Tamil (India)</option><option value="te-IN">తెలుగు · Telugu (India)</option>
+<option value="pa-IN">ਪੰਜਾਬੀ · Punjabi (India)</option><option value="ur-IN">اردو · Urdu (India)</option>
+<option value="or-IN">ଓଡ଼ିଆ · Odia (India)</option><option value="as-IN">অসমীয়া · Assamese (India)</option>
+<option value="ne-NP">नेपाली · Nepali</option><option value="sa-IN">संस्कृत · Sanskrit</option>
+<option value="ar-SA">Arabic</option><option value="de-DE">German</option><option value="es-ES">Spanish</option>
+<option value="fr-FR">French</option><option value="it-IT">Italian</option><option value="ja-JP">Japanese</option>
+<option value="ko-KR">Korean</option><option value="pt-BR">Portuguese (Brazil)</option>
+<option value="ru-RU">Russian</option><option value="zh-CN">Chinese (Mandarin)</option><option value="auto">Auto detect (AI backend required)</option></select></label>
+<label>Voice output<select id="voiceSelect"><option value="">Automatic best available</option></select></label>
+<label>Speaking speed <span id="rateValue">1.00×</span><input id="rateSlider" type="range" min=".8" max="1.2" step=".05" value="1"></label>
+<button class="secondary-btn" id="testVoice">▶ Test selected language</button></div>
+<p class="notice">प्रादेशिक बोली आणि उच्चार समजण्याची गुणवत्ता Speech Engine वर अवलंबून असेल. Auto-detect आणि अधिक व्यापक बोली-समर्थनासाठी AI voice backend आवश्यक आहे.</p></section>
+
+<section class="panel translate-panel" id="translatePanel"><div class="eyebrow">LANGUAGE TOOLS</div><h2>JARVIS Translator</h2><p class="muted">अर्थ, संदर्भ आणि बोलण्याची शैली जपून भाषांतर करण्यासाठी.</p>
+<div class="translate-card"><div class="language-row"><label>From<select id="sourceLang"><option value="auto">Auto detect</option><option value="mr-IN">मराठी · Marathi (India)</option>
+<option value="hi-IN">हिंदी · Hindi (India)</option>
+<option value="en-IN">English (India)</option>
+<option value="en-US">English (United States)</option>
+<option value="bn-IN">বাংলা · Bengali (India)</option><option value="gu-IN">ગુજરાતી · Gujarati (India)</option>
+<option value="kn-IN">ಕನ್ನಡ · Kannada (India)</option><option value="ml-IN">മലയാളം · Malayalam (India)</option>
+<option value="ta-IN">தமிழ் · Tamil (India)</option><option value="te-IN">తెలుగు · Telugu (India)</option>
+<option value="pa-IN">ਪੰਜਾਬੀ · Punjabi (India)</option><option value="ur-IN">اردو · Urdu (India)</option>
+<option value="or-IN">ଓଡ଼ିଆ · Odia (India)</option><option value="as-IN">অসমীয়া · Assamese (India)</option>
+<option value="ne-NP">नेपाली · Nepali</option><option value="sa-IN">संस्कृत · Sanskrit</option>
+<option value="ar-SA">Arabic</option><option value="de-DE">German</option><option value="es-ES">Spanish</option>
+<option value="fr-FR">French</option><option value="it-IT">Italian</option><option value="ja-JP">Japanese</option>
+<option value="ko-KR">Korean</option><option value="pt-BR">Portuguese (Brazil)</option>
+<option value="ru-RU">Russian</option><option value="zh-CN">Chinese (Mandarin)</option></select></label><button class="swap-btn" id="swapLang" aria-label="Swap languages">⇄</button><label>To<select id="targetLang"><option value="mr-IN">मराठी · Marathi (India)</option>
+<option value="hi-IN">हिंदी · Hindi (India)</option>
+<option value="en-IN">English (India)</option>
+<option value="en-US">English (United States)</option>
+<option value="bn-IN">বাংলা · Bengali (India)</option><option value="gu-IN">ગુજરાતી · Gujarati (India)</option>
+<option value="kn-IN">ಕನ್ನಡ · Kannada (India)</option><option value="ml-IN">മലയാളം · Malayalam (India)</option>
+<option value="ta-IN">தமிழ் · Tamil (India)</option><option value="te-IN">తెలుగు · Telugu (India)</option>
+<option value="pa-IN">ਪੰਜਾਬੀ · Punjabi (India)</option><option value="ur-IN">اردو · Urdu (India)</option>
+<option value="or-IN">ଓଡ଼ିଆ · Odia (India)</option><option value="as-IN">অসমীয়া · Assamese (India)</option>
+<option value="ne-NP">नेपाली · Nepali</option><option value="sa-IN">संस्कृत · Sanskrit</option>
+<option value="ar-SA">Arabic</option><option value="de-DE">German</option><option value="es-ES">Spanish</option>
+<option value="fr-FR">French</option><option value="it-IT">Italian</option><option value="ja-JP">Japanese</option>
+<option value="ko-KR">Korean</option><option value="pt-BR">Portuguese (Brazil)</option>
+<option value="ru-RU">Russian</option><option value="zh-CN">Chinese (Mandarin)</option></select></label></div>
+<textarea id="translateInput" rows="5" placeholder="इथे मजकूर लिहा किंवा पेस्ट करा..."></textarea><div class="translate-actions"><button class="secondary-btn" id="translateMic">🎙 Speak</button><button class="primary-btn" id="translateBtn">Translate ⇢</button></div><div class="translation-result" id="translationResult">भाषांतर येथे दिसेल.</div><button class="secondary-btn" id="speakTranslation">🔊 Listen to translation</button><p class="notice">टीप: Translator UI तयार आहे. अचूक भाषांतरासाठी सुरक्षित translation/AI backend जोडणे पुढील टप्प्यात आवश्यक आहे. सध्या खोटे भाषांतर दाखवले जाणार नाही.</p></div>
 </section>
-<section class="card">
-<h2>⚡ Quick Actions</h2>
-<div class="grid">
-<button data-command="आजची तारीख काय?">📅 तारीख</button><button data-command="माझ्या नोट्स दाखव">📝 Notes</button><button data-command="माझी कामे दाखव">✅ Tasks</button><button data-command="मदत">❔ मदत</button>
-</div>
-</section>
-<section class="card">
-<h2>⏰ Reminders</h2><p class="muted">वेळ आल्यावर पेज उघडे असेल तर आवाज/सूचना देण्याचा प्रयत्न होईल. विश्वसनीय लॉक-स्क्रीन अलार्मसाठी पुढे Android native integration आवश्यक आहे.</p>
-<label class="muted" for="reminderText">कशाची आठवण?</label><input id="reminderText" placeholder="उदा. पाणी प्यायचं">
-<label class="muted" for="reminderTime" style="display:block;margin-top:8px">कधी?</label><input id="reminderTime" type="datetime-local">
-<div class="row"><button id="addReminder">आठवण सेव्ह कर</button></div><div id="reminders"></div>
-</section>
-<section class="card">
-<h2>🧠 Personal Memory</h2><p class="muted">माहिती या डिव्हाइसच्या browser storage मध्ये सेव्ह होते. संवेदनशील माहिती साठवू नकोस.</p>
-<div class="row"><input id="noteText" placeholder="उदा. मला सकाळी 6 वाजता उठायचं आहे"><button id="saveNote">सेव्ह</button></div><div id="notes"></div>
-</section>
-<section class="card">
-<h2>✅ Task Manager</h2><div class="row"><input id="taskText" placeholder="नवीन काम लिही"><button id="addTask">जोड</button></div><div id="tasks"></div>
-</section>
-<section class="card">
-<h2>🧩 AI Modules · Planned Integrations</h2>
-<span class="pill">Online AI Router</span><span class="pill">Offline Local Model</span><span class="pill">Streaming Replies</span><span class="pill">Long-term Memory</span><span class="pill">Web Research</span><span class="pill">Coding Agent</span><span class="pill">Website Builder</span><span class="pill">App Builder</span><span class="pill">Camera Vision</span><span class="pill">Emotion Cues</span><span class="pill">Android Automation</span><span class="pill">Backup & Restore</span>
-<p class="muted">हे मॉड्यूल्स सध्या आराखड्यात आहेत, जोडलेले कार्यरत AI integrations नाहीत. API keys कधीही थेट या सार्वजनिक front-end फाइलमध्ये ठेवू नयेत. पुढील टप्प्यात सुरक्षित backend आणि provider adapter जोडू.</p>
-</section>
-<footer>JARVIS AI Starter · Local-first foundation · Build version 0.1.0</footer>
-</main>
-<script src="app.js"></script>
-</body></html>
+
+<section class="panel" id="settingsPanel"><div class="eyebrow">PREFERENCES</div><h2>Settings</h2><div class="setting-card"><div><strong>Performance mode</strong><p>Animation smoothness आणि battery वापर</p></div><select id="performance"><option value="auto">Auto (recommended)</option><option value="quality">Visual quality</option><option value="battery">Battery saver</option></select></div><div class="setting-card"><div><strong>Animation target</strong><p>डिस्प्लेच्या क्षमतेनुसार कमाल लक्ष्य</p></div><select id="fps"><option value="auto">Auto (up to 120 FPS)</option><option value="90">90 FPS target</option><option value="60">60 FPS target</option></select></div><div class="setting-card"><div><strong>Google account</strong><p>Google sign-in backend जोडल्यावर उपलब्ध होईल</p></div><button class="secondary-btn" id="googleBtn">Continue with Google</button></div><div class="setting-card"><div><strong>Conversation data</strong><p>या prototype मधील chat या device वरच सेव्ह होते.</p></div><button class="secondary-btn danger" id="clearChat">Clear local chat</button></div><p class="notice">Google login, cloud sync आणि Play Store publishing साठी सुरक्षित backend/configuration आवश्यक आहे.</p></section>
+</main><footer>JARVIS AI · Multilingual Prototype v1.5</footer></div><script src="app.js"></script></body></html>

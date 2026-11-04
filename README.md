@@ -1,39 +1,21 @@
-# JARVIS AI Starter 0.3.0
+# JARVIS AI v1.5 Multi-language Prototype
 
-This is a local-first **starter foundation**, not a finished ChatGPT/Gemini/Claude replacement and not yet a native Android app.
+## Language coverage in the interface
+Priority quality targets:
+- Marathi (India) `mr-IN`
+- Hindi (India) `hi-IN`
+- English (India) `en-IN`
+- English (United States) `en-US`
 
-## Included and working
-- Marathi-first mobile-friendly assistant interface
-- Local instant commands for date, time, notes, tasks and help
-- Browser speech-to-text when supported by the Android browser
-- Text-to-speech using the device's installed speech voices
-- Local notes, tasks and reminders using browser storage
-- Reminder checks while the page is running
-- PWA manifest and service worker for basic offline app-shell caching
-- Safe DOM rendering for user-provided notes and messages
+Additional selectable locales include Bengali, Gujarati, Kannada, Malayalam, Tamil, Telugu, Punjabi, Urdu, Odia, Assamese, Nepali, Sanskrit, Arabic, German, Spanish, French, Italian, Japanese, Korean, Portuguese (Brazil), Russian and Chinese (Mandarin).
 
-## Not yet connected
-- Online AI provider APIs / model router
-- Offline on-device LLM
-- Cloud database / account sync
-- Background microphone / wake word
-- Reliable lock-screen alarms
-- Native camera vision
-- Android app-control / accessibility automation
-- Coding agent that executes projects in a sandbox
-- Website and APK build pipeline
+The voice picker lists matching voices installed on the device/browser. Speech recognition availability and accuracy depend on the browser, operating system, selected locale, language packs, microphone and network.
 
-These require separate modules, permissions, device testing and, for online AI, a secure backend. Never put provider API keys in `app.js` or any public GitHub file.
+## Quality requirements
+Marathi and Hindi are priority languages. Production testing must cover natural Indian pronunciation, colloquial speech, regional accents/dialects, code-switching, names, numbers and background noise. A locale dropdown alone does not guarantee accurate dialect recognition or flawless grammar.
 
-## Phone-first free workflow
-1. Upload the files in this folder to the existing GitHub repository root.
-2. In GitHub repository Settings → Pages, publish from the `main` branch and `/ (root)`.
-3. Open the published HTTPS URL on Android Chrome.
-4. Use Chrome menu → Add to Home screen / Install app if offered.
-5. Test notes, tasks, voice and reminders with the page open.
+## Translation
+The translator UI supports selecting from the same language list, source auto-detect selection, source/target swap, text entry and speech input. The translation engine is not connected yet. A secure translation/AI backend is required before it can provide actual translations. The prototype does not fabricate translated text.
 
-## Approved requirements and development status
-The complete locked scope is in `docs/REQUIREMENTS-LOCK.md`. The current verified implementation and next milestone are in `docs/DEVELOPMENT-BOARD.md`. The technical architecture remains in `docs/MASTER-PLAN.md`.
-
-## Testing
-Open `tests/manual-checklist.md` and verify each item on the actual Android phone. Browser speech recognition and notifications vary by device/browser and permission state.
+## Limitations
+This is a front-end prototype. Full AI chat, full-duplex voice, cloud accounts, Google OAuth, cloud backup and Play Store release are not implemented. 120 FPS is a rendering target, not a guarantee.

@@ -3,8 +3,8 @@
   "short_name": "JARVIS",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#07111f",
-  "theme_color": "#07111f",
-  "description": "Personal AI assistant starter",
+  "background_color": "#070b18",
+  "theme_color": "#070b18",
+  "description": "JARVIS multilingual voice and translation prototype",
   "icons": []
 }
