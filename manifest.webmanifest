@@ -2,9 +2,11 @@
   "name": "JARVIS AI",
   "short_name": "JARVIS",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#070b18",
   "theme_color": "#070b18",
-  "description": "JARVIS multilingual voice and translation prototype",
+  "description": "JARVIS AI personal assistant app prototype v1.8",
+  "orientation": "portrait",
   "icons": []
 }

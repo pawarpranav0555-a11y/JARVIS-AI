@@ -1,26 +1,18 @@
-# JARVIS AI v1.6 Speed-Optimized Prototype
+# JARVIS AI v1.8 — AI Brain Foundation
 
-This is a zero-cost-first front-end prototype. It improves local responsiveness and reduces unnecessary network and animation work.
+This package is built from the saved v1.7 Custom Orbit UI ZIP. It preserves the existing v1.7 app files, corrects the manifest metadata, and bumps the service-worker cache to `jarvis-v18-ai-foundation`.
 
-## Speed improvements
-- Removes the external Google Fonts dependency so the first screen does not wait for a font download.
-- Uses system fonts and lightweight CSS containment.
-- Limits saved chat history to the latest 100 messages and handles storage errors safely.
-- Pauses the animated orb when the page is in the background.
-- Caps animation to a practical 60 FPS by default, lowers it in battery saver, and limits canvas pixel ratio.
-- Reduces orb particles and uses a desynchronized canvas context when supported.
-- Service worker caches only same-origin app files, not third-party requests, and uses a fresh cache version.
+## Included
+- Existing v1.7 HTML/CSS/JS and orb customization
+- Corrected `manifest.webmanifest`
+- Updated `sw.js` cache version to prevent stale v1.7 assets
+- `docs/MASTER-PLAN.md`: complete available 110-point plan and 15 sections
+- `docs/REQUIREMENTS-LOCK.md`: project constraints and 87-vs-110 reconciliation note
+- `docs/AI-BRAIN-DATABASE-ARCHITECTURE.md`: Firebase/Firestore + secure Gemini gateway architecture
+- `docs/UI-DIRECTION.md`: approved minimal main-screen direction
 
-## Important limitations
-This remains a front-end prototype. It does not yet have a real AI model/backend, real translation engine, Google sign-in, cloud sync, or full-duplex voice. Browser speech recognition and speech synthesis depend on the phone/browser and installed language voices. No speed claim versus Gemini or ChatGPT is made.
+## Important truth about status
+This is still a front-end prototype plus architecture documents. Firebase is not connected. Gemini is not connected. No live database, authentication, AI brain, billing, or native APK is included. No paid services or billing were activated.
 
-## Publish
-Upload the files and `docs/` folder contents to the repository root on the `main` branch, replacing the existing files. Keep the repository Pages source set to `main` / root.
-
-
-## v1.7 Custom Orbit UI
-- Added Appearance Studio with four orb presentation styles.
-- Five accent color palettes, motion presets, orb size and glow controls.
-- Preferences save locally on the device and apply instantly.
-- No paid service, external font, or API key is used by the customization layer.
-- This remains a front-end prototype. Full AI backend, real translation, cloud login and cross-device sync are not included.
+## Before publishing
+Upload all root files and the complete `docs/` folder to the existing repository `main` branch. Test the published app on Android Chrome, clear/refresh old service-worker cache if needed, and verify every flow. Do not upload secrets.
